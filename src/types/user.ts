@@ -1,4 +1,4 @@
-export type UserType = {
+export interface UserType {
     _id: string;
     name: string;
     city: string;

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Modal, Button } from "antd";
 
-import CustomForm from "./CustomForm";
-
+import CustomForm from "./CustomForm/index.";
 
 const AddUser = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,6 +15,7 @@ const AddUser = () => {
                 title="Add User"
                 open={isModalOpen}
                 onCancel={() => setIsModalOpen(false)}
+                footer={null}
             >
                 <CustomForm />
             </Modal>
