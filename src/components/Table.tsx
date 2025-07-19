@@ -1,33 +1,43 @@
-import { Table, TableProps } from "antd";
-import { UserType } from "../../types/user";
+import { Table as TableCompont, TableProps } from "antd";
+import { UserType } from "../types/user";
 
 const columns: TableProps<UserType>["columns"] = [
     {
         title: "Name",
         dataIndex: "name",
         key: "name",
-        render: (text) => <a>{text}</a>,
     },
     {
         title: "City",
         dataIndex: "city",
         key: "city",
     },
+    {
+        title: "Count Img",
+        dataIndex: "count_img",
+        key: "count_img",
+    },
 ];
 
 const data: UserType[] = [
     {
         _id: "string",
-        name: "string",
-        city: "string",
-        images: ["sdf"],
+        name: "Андрій",
+        city: "Kyiv",
+        count_img: 15,
+    },
+    {
+        _id: "string_ 2",
+        name: "Stas",
+        city: "Luts",
+        count_img: 20,
     },
 ];
 
-const TableComponent = () => {
+const Table = () => {
     return (
         <>
-            <Table<UserType>
+            <TableCompont<UserType>
                 columns={columns}
                 dataSource={data}
                 pagination={{ defaultPageSize: 1, total: 10 }}
@@ -36,4 +46,4 @@ const TableComponent = () => {
     );
 };
 
-export default TableComponent;
+export default Table;

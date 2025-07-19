@@ -1,7 +1,6 @@
-
- export type UserType = {
-    _id: string,
-    name: string,
-    city: string
-    images: string[]
-}
+export type UserType = {
+    _id: string;
+    name: string;
+    city: string;
+    count_img: number;
+};
