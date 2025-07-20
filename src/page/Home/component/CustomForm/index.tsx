@@ -8,12 +8,7 @@ const CustomForm: FC = () => {
   const [form] = Form.useForm();
 
   const onFinish = (values: FormValues) => {
-    // Ensure image field is properly formatted as an array
-    const formattedValues = {
-      ...values,
-      image: Array.isArray(values.image) ? values.image : (values.image ? [values.image] : [])
-    };
-    console.log("Success:", formattedValues);
+    console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -45,17 +40,7 @@ const CustomForm: FC = () => {
         <Input />
       </Form.Item>
 
-      <Form.Item 
-        label="Images" 
-        name="image" 
-        valuePropName="fileList"
-        getValueFromEvent={(e) => {
-          if (Array.isArray(e)) {
-            return e;
-          }
-          return e && e.fileList ? e.fileList : [];
-        }}
-      >
+      <Form.Item label="Images" name="image" valuePropName="fileList">
         <UploadPhoto />
       </Form.Item>
 

@@ -21,11 +21,25 @@ class Thunk {
     }
   }
 
-  async createUser(dispatch: DispatchAction, createUser: CreateUserType) {
+  async getUsersCount(dispatch: DispatchAction) {
     try {
       dispatch({ status: StatusReq.pending });
 
-      await UserPhotoAPI.createUser(createUser);
+      const result = await UserPhotoAPI.getUsersCount();
+
+      dispatch({
+        status: StatusReq.resolved,
+        countUsers: result,
+      });
+    } catch (error) {
+      dispatch({ status: StatusReq.rejected, error });
+      CleatErrorContext(dispatch, { status: StatusReq.idle, error: null });
+    }
+  }
+
+  async createUser(dispatch: DispatchAction, createUser: CreateUserType) {
+    try {
+      dispatch({ status: StatusReq.pending });
 
       dispatch({
         status: StatusReq.resolved,

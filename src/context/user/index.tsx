@@ -2,7 +2,12 @@ import { useContext, useReducer, createContext } from "react";
 
 import { StatusReq } from "../../types/api";
 import Thunk from "./reducer";
-import { GetUsersType, InitState, PostUserType } from "./type";
+import {
+  GetUsersCountType,
+  GetUsersType,
+  InitState,
+  PostUserType,
+} from "./type";
 
 const UserStateContext = createContext<InitState | null>(null);
 const UserDispatchContext = createContext<any>(null);
@@ -29,6 +34,7 @@ const useUserDispatch = () => {
 const initialState: InitState = {
   status: StatusReq.idle,
   users: [],
+  countUsers: 0,
   error: null,
 };
 
@@ -50,4 +56,14 @@ const getUsers: GetUsersType = async (dispatch, params) =>
 const createUser: PostUserType = async (dispatch, createUser) =>
   Thunk.createUser(dispatch, createUser);
 
-export { UserProvider, useUserState, useUserDispatch, getUsers, createUser };
+const getUsersCount: GetUsersCountType = async (dispatch) =>
+  Thunk.getUsersCount(dispatch);
+
+export {
+  UserProvider,
+  useUserState,
+  useUserDispatch,
+  getUsers,
+  createUser,
+  getUsersCount,
+};

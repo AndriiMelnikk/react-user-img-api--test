@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { GetUsersParams } from "../types/api";
 import { UserType, CreateUserType } from "../types/user";
 import Service from "./interceptors";
@@ -97,17 +98,28 @@ const data: UserType[] = [
 
 class UserPhotoAPI {
   async getUsers(params: GetUsersParams) {
-    return Service.get("user", { params })
-      .then((res) => {
-        console.log(res);
-        return data;
-      })
-      .catch((err) => err);
+    try {
+      const response = await Service.get("user", { params });
+      return response.data;
+    } catch (err) {
+      throw err;
+    }
   }
 
   async createUser(createUser: CreateUserType) {
     console.log(createUser);
     return "user created";
+  }
+
+  async getUsersCount() {
+    try {
+      const response: AxiosResponse<number, any> =
+        await Service.get("user/count");
+      
+      return response.data;
+    } catch (err) {
+      throw err;
+    }
   }
 }
 

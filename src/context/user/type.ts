@@ -4,6 +4,7 @@ import { CreateUserType, UserType } from "../../types/user";
 export type InitState = {
   status: StatusReq;
   users: UserType[] | [];
+  countUsers: number;
   error: string | null | unknown;
 };
 
@@ -18,3 +19,5 @@ export type PostUserType = (
   dispatch: DispatchAction,
   createUser: CreateUserType,
 ) => void;
+
+export type GetUsersCountType = (dispatch: DispatchAction) => void;
