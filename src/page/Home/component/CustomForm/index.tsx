@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Form, Input, Button, FormInstance } from "antd";
+import { Form, Input, Button } from "antd";
 
 import UploadPhoto from "./UploadPhoto";
 import { FormValues } from "../../../../types/form";

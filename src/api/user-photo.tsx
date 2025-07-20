@@ -14,22 +14,31 @@ class UserPhotoAPI {
   }
 
   async createUser(createUser: CreateUserType) {
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
 
-    formData.append("name", createUser.name);
-    formData.append("city", createUser.city);
+      formData.append("name", createUser.name);
+      formData.append("city", createUser.city);
 
-    createUser.images?.forEach((file) => {
-      if (file.originFileObj) {
-        formData.append("images", file.originFileObj);
-      }
-    });
+      createUser.images?.forEach((file) => {
+        if (file.originFileObj) {
+          formData.append("images", file.originFileObj);
+        }
+      });
 
-    console.log(formData.get("images"));
+      console.log("FormData images:", formData.getAll("images"));
 
-    const response = await Service.post("user/upload", formData);
+      const response = await Service.post("user/upload", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-    return "user created";
+      return response.data;
+    } catch (err) {
+      console.error("Upload error:", err);
+      throw err;
+    }
   }
 
   async getUsersCount() {
