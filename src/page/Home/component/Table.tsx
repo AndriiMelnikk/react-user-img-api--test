@@ -33,7 +33,7 @@ type Props = {
 
 const Table: FC<Props> = ({ reloadFlag }) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const limit = 2;
+    const limit = 10;
 
     const userDispatch = useUserDispatch();
     const { users, status, countUsers } = useUserState();
@@ -57,6 +57,7 @@ const Table: FC<Props> = ({ reloadFlag }) => {
             pagination={{
                 current: currentPage,
                 pageSize: limit,
+                pageSizeOptions: [],
                 total: countUsers,
                 onChange: (page) => setCurrentPage(page),
             }}
