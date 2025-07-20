@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000";
+const API_URL =
+  "https://6b0c329c-acfe-4543-8454-c9f518e81aed-00-10it4wmkw0pj0.janeway.replit.dev/";
 
 const Service = axios.create({
   baseURL: API_URL,
@@ -10,7 +11,7 @@ const Service = axios.create({
 });
 
 Service.interceptors.request.use(
-  (res) => res.data,
+  (res) => res,
   (error) => {
     Promise.reject(error.response || error.message);
   },

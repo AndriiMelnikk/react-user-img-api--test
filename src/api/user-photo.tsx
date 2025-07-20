@@ -1,5 +1,5 @@
 import { GetUsersParams } from "../types/api";
-import { UserType, CreateUserType} from "../types/user";
+import { UserType, CreateUserType } from "../types/user";
 import Service from "./interceptors";
 
 const data: UserType[] = [
@@ -97,15 +97,17 @@ const data: UserType[] = [
 
 class UserPhotoAPI {
   async getUsers(params: GetUsersParams) {
-    return data;
-    // return Service.get('users', {params})
-    //   .then(res => res)
-    //   .catch(err => err);
+    return Service.get("user", { params })
+      .then((res) => {
+        console.log(res);
+        return data;
+      })
+      .catch((err) => err);
   }
 
-  async createUser(createUser: CreateUserType){
+  async createUser(createUser: CreateUserType) {
     console.log(createUser);
-    return 'user created';
+    return "user created";
   }
 }
 
