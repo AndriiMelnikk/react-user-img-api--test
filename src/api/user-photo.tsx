@@ -28,13 +28,13 @@ class UserPhotoAPI {
 
       console.log("FormData images:", formData.getAll("images"));
 
-      const response = await Service.post("user/upload", formData, {
+      const response = await Service.post("user", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
 
-      return response.data;
+      return response;
     } catch (err) {
       console.error("Upload error:", err);
       throw err;

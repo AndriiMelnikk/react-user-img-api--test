@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { Modal, Button } from "antd";
 
 import CustomForm from "./CustomForm/index";
+import { MessageInstance } from "antd/es/message/interface";
 
-const AddUser = () => {
+type Props = {
+    messageApi: MessageInstance;
+    onUserAdded: () => void;
+};
+
+const AddUser: FC<Props> = ({ messageApi, onUserAdded }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
@@ -17,7 +23,11 @@ const AddUser = () => {
                 onCancel={() => setIsModalOpen(false)}
                 footer={null}
             >
-                <CustomForm />
+                <CustomForm
+                    closeModal={setIsModalOpen}
+                    messageApi={messageApi}
+                    onUserAdded={onUserAdded}
+                />
             </Modal>
         </div>
     );

@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { GetUsersParams, StatusReq } from "../../types/api";
 import { CreateUserType, UserType } from "../../types/user";
 
@@ -13,11 +14,11 @@ export type DispatchAction = (action: Partial<InitState>) => void;
 export type GetUsersType = (
   dispatch: DispatchAction,
   params: GetUsersParams,
-) => void;
+) => Promise<void>;
 
 export type PostUserType = (
   dispatch: DispatchAction,
   createUser: CreateUserType,
-) => void;
+) => Promise<AxiosResponse<any, any> | undefined>;
 
-export type GetUsersCountType = (dispatch: DispatchAction) => void;
+export type GetUsersCountType = (dispatch: DispatchAction) => Promise<void>;

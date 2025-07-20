@@ -3,14 +3,39 @@ import { Form, Input, Button } from "antd";
 
 import UploadPhoto from "./UploadPhoto";
 import { FormValues } from "../../../../types/form";
-import { createUser, useUserDispatch } from "../../../../context/user";
+import {
+  createUser,
+  useUserDispatch,
+  useUserState,
+} from "../../../../context/user";
+import { StatusReq } from "../../../../types/api";
+import { MessageInstance } from "antd/es/message/interface";
 
-const CustomForm: FC = () => {
+type Props = {
+  closeModal: (status: boolean) => void;
+  messageApi: MessageInstance;
+  onUserAdded: () => void;
+};
+
+const CustomForm: FC<Props> = ({ closeModal, messageApi, onUserAdded }) => {
   const [form] = Form.useForm();
   const userDispatch = useUserDispatch();
+  const { status } = useUserState();
 
   const onFinish = (values: FormValues) => {
-    createUser(userDispatch, values);
+    createUser(userDispatch, values)
+      .then((res) => {
+        onUserAdded();
+        form.resetFields();
+        messageApi.open({
+          type: "success",
+          content: res?.data?.message,
+        });
+        closeModal(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -50,7 +75,12 @@ const CustomForm: FC = () => {
         wrapperCol={{ offset: 8, span: 16 }}
         style={{ textAlign: "right" }}
       >
-        <Button color="purple" variant="solid" htmlType="submit">
+        <Button
+          color="purple"
+          variant="solid"
+          htmlType="submit"
+          loading={status === StatusReq.pending}
+        >
           Add User
         </Button>
       </Form.Item>

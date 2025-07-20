@@ -1,7 +1,8 @@
 import { FC } from "react";
-import { Upload, Button, message } from "antd";
+import { Upload, Button } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import type { UploadFile, RcFile } from "antd/es/upload/interface";
+import type { UploadFile } from "antd/es/upload/interface";
+
 
 type Props = {
   value?: UploadFile[];
@@ -9,25 +10,20 @@ type Props = {
 };
 
 const UploadPhoto: FC<Props> = ({ value = [], onChange }) => {
-  const handleBeforeUpload = (file: RcFile) => {
-    const isImage = file.type.startsWith("image/");
-    if (!isImage) {
-      message.error("Only image files are allowed!");
-      return Upload.LIST_IGNORE;
-    }
 
-    const newFile: UploadFile = {
-      uid: file.uid,
-      name: file.name,
+
+  const handleChange = ({ fileList }: { fileList: UploadFile[] }) => {
+    const filteredList = fileList.filter((file) =>
+      file.type?.startsWith("image/"),
+    );
+
+    const updatedList = filteredList.map((file) => ({
+      ...file,
       status: "done",
-      originFileObj: file,
-      url: URL.createObjectURL(file),
-    };
+      url: file.url || URL.createObjectURL(file.originFileObj as Blob),
+    }));
 
-    const newFileList = [...value, newFile];
-    onChange?.(newFileList);
-
-    return false;
+    onChange?.(updatedList as UploadFile[]);
   };
 
   const handleRemove = (file: UploadFile) => {
@@ -40,13 +36,16 @@ const UploadPhoto: FC<Props> = ({ value = [], onChange }) => {
     <Upload
       fileList={value}
       listType="picture"
-      beforeUpload={handleBeforeUpload}
       multiple
       accept="image/*"
-      onRemove={handleRemove}
       showUploadList={{ showPreviewIcon: false }}
+      onChange={handleChange}
+      onRemove={handleRemove}
+      beforeUpload={() => false}
     >
-      <Button icon={<UploadOutlined />}>Upload</Button>
+      <Button icon={<UploadOutlined />}>
+        Upload
+      </Button>
     </Upload>
   );
 };

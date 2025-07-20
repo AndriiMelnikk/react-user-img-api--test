@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import { Spin, Table as TableCompont, TableProps } from "antd";
 import { UserType } from "../../../types/user";
 import {
@@ -27,8 +27,12 @@ const columns: TableProps<UserType>["columns"] = [
     },
 ];
 
-const Table = () => {
-    const [pageSize, setPageSize] = useState<number>(1);
+type Props = {
+    reloadFlag: boolean;
+};
+
+const Table: FC<Props> = ({ reloadFlag }) => {
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const limit = 2;
 
     const userDispatch = useUserDispatch();
@@ -36,28 +40,27 @@ const Table = () => {
 
     useEffect(() => {
         getUsersCount(userDispatch);
-    }, []);
+        getUsers(userDispatch, { page: currentPage, limit });
+    }, [reloadFlag]);
 
     useEffect(() => {
-        getUsers(userDispatch, { page: pageSize, limit });
-    }, [pageSize]);
+        getUsers(userDispatch, { page: currentPage, limit });
+    }, [currentPage]);
 
     if (status === StatusReq.pending) return <Spin size="large" />;
 
     return (
-        <>
-            <TableCompont<UserType>
-                rowKey="_id"
-                columns={columns}
-                dataSource={users}
-                pagination={{
-                    current: pageSize,
-                    pageSize: limit,
-                    total: countUsers,
-                    onChange: (page) => setPageSize(page),
-                }}
-            />
-        </>
+        <TableCompont<UserType>
+            rowKey="_id"
+            columns={columns}
+            dataSource={users}
+            pagination={{
+                current: currentPage,
+                pageSize: limit,
+                total: countUsers,
+                onChange: (page) => setCurrentPage(page),
+            }}
+        />
     );
 };
 

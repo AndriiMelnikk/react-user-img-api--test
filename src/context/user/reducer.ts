@@ -41,11 +41,12 @@ class Thunk {
     try {
       dispatch({ status: StatusReq.pending });
 
-      await UserPhotoAPI.createUser(createUser);
+      const res = await UserPhotoAPI.createUser(createUser);
 
       dispatch({
         status: StatusReq.resolved,
       });
+      return res;
     } catch (error) {
       dispatch({ status: StatusReq.rejected, error });
       CleatErrorContext(dispatch, { status: StatusReq.idle, error: null });
