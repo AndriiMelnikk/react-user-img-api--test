@@ -2,7 +2,7 @@ import { useContext, useReducer, createContext } from "react";
 
 import { StatusReq } from "../../types/api";
 import Thunk from "./reducer";
-import { GetUsersType, InitState } from "./type";
+import { GetUsersType, InitState, PostUserType } from "./type";
 
 const UserStateContext = createContext<InitState | null>(null);
 const UserDispatchContext = createContext<any>(null);
@@ -47,4 +47,7 @@ const UserProvider = (props: any) => {
 const getUsers: GetUsersType = async (dispatch, params) =>
   Thunk.getUsers(dispatch, params);
 
-export { UserProvider, useUserState, useUserDispatch, getUsers };
+const createUser: PostUserType = async (dispatch, createUser) =>
+  Thunk.createUser(dispatch, createUser);
+
+export { UserProvider, useUserState, useUserDispatch, getUsers, createUser };

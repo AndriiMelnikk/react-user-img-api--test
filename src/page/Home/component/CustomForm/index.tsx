@@ -1,10 +1,10 @@
-import React from "react";
+import { FC } from "react";
 import { Form, Input, Button } from "antd";
 
 import UploadPhoto from "./UploadPhoto";
 import { FormValues } from "../../../../types/form";
 
-const CustomForm: React.FC = () => {
+const CustomForm: FC = () => {
   const [form] = Form.useForm();
 
   const onFinish = (values: FormValues) => {

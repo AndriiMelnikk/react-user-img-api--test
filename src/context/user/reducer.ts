@@ -1,7 +1,8 @@
-import UserPhotoAPI from '../../api/user-photo';
-import CleatErrorContext from '../../hooks/CleatErrorContext';
-import { GetUsersParams, StatusReq } from '../../types/api';
-import { DispatchAction } from './type';
+import UserPhotoAPI from "../../api/user-photo";
+import CleatErrorContext from "../../hooks/CleatErrorContext";
+import { GetUsersParams, StatusReq } from "../../types/api";
+import { CreateUserType } from "../../types/user";
+import { DispatchAction } from "./type";
 
 class Thunk {
   async getUsers(dispatch: DispatchAction, params: GetUsersParams) {
@@ -14,7 +15,21 @@ class Thunk {
         status: StatusReq.resolved,
         users: result,
       });
-      
+    } catch (error) {
+      dispatch({ status: StatusReq.rejected, error });
+      CleatErrorContext(dispatch, { status: StatusReq.idle, error: null });
+    }
+  }
+
+  async createUser(dispatch: DispatchAction, createUser: CreateUserType) {
+    try {
+      dispatch({ status: StatusReq.pending });
+
+      await UserPhotoAPI.createUser(createUser);
+
+      dispatch({
+        status: StatusReq.resolved,
+      });
     } catch (error) {
       dispatch({ status: StatusReq.rejected, error });
       CleatErrorContext(dispatch, { status: StatusReq.idle, error: null });

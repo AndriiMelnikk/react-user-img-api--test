@@ -1,39 +1,47 @@
-import React, { useState } from "react";
+import { FC } from "react";
 import { Upload, Button, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import type { RcFile } from "antd/es/upload/interface";
+import type { UploadFile, RcFile, UploadChangeParam } from "antd/es/upload/interface";
 
-import type { UploadFile } from "antd";
+type Props = {
+  value?: UploadFile[];
+  onChange?: (value: UploadFile[]) => void;
+};
 
-const UploadPhoto: React.FC = () => {
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [rawFile, setRawFile] = useState<RcFile | null>(null);
-
+const UploadPhoto: FC<Props> = ({ value = [], onChange }) => {
   const handleBeforeUpload = (file: RcFile) => {
     const isImage = file.type.startsWith("image/");
     if (!isImage) {
-      message.error("Можна завантажити лише зображення");
+      message.error("Only image files are allowed!");
       return Upload.LIST_IGNORE;
     }
 
-    setRawFile(file);
-    setFileList([file]);
+    const newFileList = [...value, file as UploadFile];
+    onChange?.(newFileList);
     return false;
+  };
+
+  const handleChange = (info: UploadChangeParam) => {
+    onChange?.(info.fileList);
+  };
+
+  const handleRemove = (file: UploadFile) => {
+    const newList = value.filter((f) => f.uid !== file.uid);
+    onChange?.(newList);
+    return true;
   };
 
   return (
     <Upload
-      action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+      fileList={value}
       listType="picture"
       beforeUpload={handleBeforeUpload}
       multiple
       accept="image/*"
-      onRemove={() => {
-        setFileList([]);
-        setRawFile(null);
-      }}
+      onChange={handleChange}
+      onRemove={handleRemove}
     >
-      <Button color="cyan" variant="outlined" icon={<UploadOutlined />}>
+      <Button icon={<UploadOutlined />}>
         Upload
       </Button>
     </Upload>

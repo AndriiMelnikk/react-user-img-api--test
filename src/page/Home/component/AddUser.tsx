@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal, Button } from "antd";
 
-import CustomForm from "./CustomForm/index.";
+import CustomForm from "./CustomForm/index";
 
 const AddUser = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
