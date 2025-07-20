@@ -1,6 +1,12 @@
-export type UserType = {
+export interface UserType {
     _id: string;
     name: string;
     city: string;
-    count_img: number;
-};
+    imageCount: number;
+}
+
+export interface CreateUserType {
+    name: string;
+    city: string;
+    images?: { originFileObj?: File }[];
+}
