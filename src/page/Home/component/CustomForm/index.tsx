@@ -1,14 +1,16 @@
 import { FC } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, FormInstance } from "antd";
 
 import UploadPhoto from "./UploadPhoto";
 import { FormValues } from "../../../../types/form";
+import { createUser, useUserDispatch } from "../../../../context/user";
 
 const CustomForm: FC = () => {
   const [form] = Form.useForm();
+  const userDispatch = useUserDispatch();
 
   const onFinish = (values: FormValues) => {
-    console.log("Success:", values);
+    createUser(userDispatch, values);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -40,7 +42,7 @@ const CustomForm: FC = () => {
         <Input />
       </Form.Item>
 
-      <Form.Item label="Images" name="image" valuePropName="fileList">
+      <Form.Item label="Images" name="images">
         <UploadPhoto />
       </Form.Item>
 

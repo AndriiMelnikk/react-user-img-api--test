@@ -41,6 +41,8 @@ class Thunk {
     try {
       dispatch({ status: StatusReq.pending });
 
+      await UserPhotoAPI.createUser(createUser);
+
       dispatch({
         status: StatusReq.resolved,
       });

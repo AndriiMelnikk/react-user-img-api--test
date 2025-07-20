@@ -44,8 +44,6 @@ const Table = () => {
 
     if (status === StatusReq.pending) return <Spin size="large" />;
 
-    console.log(users);
-
     return (
         <>
             <TableCompont<UserType>

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Upload, Button, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import type { UploadFile, RcFile, UploadChangeParam } from "antd/es/upload/interface";
+import type { UploadFile, RcFile } from "antd/es/upload/interface";
 
 type Props = {
   value?: UploadFile[];
@@ -16,13 +16,18 @@ const UploadPhoto: FC<Props> = ({ value = [], onChange }) => {
       return Upload.LIST_IGNORE;
     }
 
-    const newFileList = [...value, file as UploadFile];
-    onChange?.(newFileList);
-    return false;
-  };
+    const newFile: UploadFile = {
+      uid: file.uid,
+      name: file.name,
+      status: "done",
+      originFileObj: file,
+      url: URL.createObjectURL(file),
+    };
 
-  const handleChange = (info: UploadChangeParam) => {
-    onChange?.(info.fileList);
+    const newFileList = [...value, newFile];
+    onChange?.(newFileList);
+
+    return false;
   };
 
   const handleRemove = (file: UploadFile) => {
@@ -38,12 +43,10 @@ const UploadPhoto: FC<Props> = ({ value = [], onChange }) => {
       beforeUpload={handleBeforeUpload}
       multiple
       accept="image/*"
-      onChange={handleChange}
       onRemove={handleRemove}
+      showUploadList={{ showPreviewIcon: false }}
     >
-      <Button icon={<UploadOutlined />}>
-        Upload
-      </Button>
+      <Button icon={<UploadOutlined />}>Upload</Button>
     </Upload>
   );
 };

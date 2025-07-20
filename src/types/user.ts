@@ -3,10 +3,10 @@ export interface UserType {
     name: string;
     city: string;
     imageCount: number;
-};
+}
 
 export interface CreateUserType {
     name: string;
     city: string;
-    imgs: string[];
+    images?: { originFileObj?: File }[];
 }
