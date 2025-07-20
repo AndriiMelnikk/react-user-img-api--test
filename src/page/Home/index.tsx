@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
 
 import AddUser from "./component/AddUser";
-import Table from "../../components/Table";
+import Table from "./component/Table";
 
 const Home = () => {
     return (
